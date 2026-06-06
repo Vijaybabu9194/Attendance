@@ -11,7 +11,7 @@ export default function Incharges() {
   const [search, setSearch] = useState('');
   const [showModal, setShowModal] = useState(false);
   const [editing, setEditing] = useState(null);
-  const [form, setForm] = useState({ name: '', email: '', phone: '', password: '', designation: '' });
+  const [form, setForm] = useState({ name: '', email: '', phone: '', designation: '' });
 
   useEffect(() => { loadData(); }, []);
 
@@ -27,13 +27,13 @@ export default function Incharges() {
 
   const openCreate = () => {
     setEditing(null);
-    setForm({ name: '', email: '', phone: '', password: 'incharge123', designation: 'Supervisor' });
+    setForm({ name: '', email: '', phone: '', designation: 'Supervisor' });
     setShowModal(true);
   };
 
   const openEdit = (ic) => {
     setEditing(ic);
-    setForm({ name: ic.name, email: ic.email, phone: ic.phone, password: '', designation: ic.designation || '' });
+    setForm({ name: ic.name, email: ic.email, phone: ic.phone, designation: ic.designation || '' });
     setShowModal(true);
   };
 
@@ -41,7 +41,7 @@ export default function Incharges() {
     e.preventDefault();
     try {
       const data = { ...form, role: 'incharge', category: 'supervisor' };
-      if (!data.password) delete data.password;
+
       if (editing) { await userApi.update(editing._id, data); }
       else { await userApi.create(data); }
       setShowModal(false);
@@ -110,10 +110,10 @@ export default function Incharges() {
                 <div className="modal-body">
                   <div className="form-group"><label className="form-label">Full Name *</label><input className="form-input" value={form.name} onChange={e => setForm({...form, name: e.target.value})} required /></div>
                   <div className="grid-2">
-                    <div className="form-group"><label className="form-label">Email *</label><input className="form-input" type="email" value={form.email} onChange={e => setForm({...form, email: e.target.value})} required /></div>
+                    <div className="form-group"><label className="form-label">Email</label><input className="form-input" type="email" value={form.email} onChange={e => setForm({...form, email: e.target.value})} /></div>
                     <div className="form-group"><label className="form-label">Phone *</label><input className="form-input" value={form.phone} onChange={e => setForm({...form, phone: e.target.value})} required /></div>
                   </div>
-                  {!editing && <div className="form-group"><label className="form-label">Password *</label><input className="form-input" type="password" value={form.password} onChange={e => setForm({...form, password: e.target.value})} required /></div>}
+
                 </div>
                 <div className="modal-footer">
                   <button type="button" className="btn btn-secondary" onClick={() => setShowModal(false)}>Cancel</button>

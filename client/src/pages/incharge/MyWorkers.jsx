@@ -11,7 +11,7 @@ export default function MyWorkers() {
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [editing, setEditing] = useState(null);
-  const [form, setForm] = useState({ name: '', email: '', phone: '', password: '', category: 'unskilled', dailyWage: '600', designation: 'Helper' });
+  const [form, setForm] = useState({ name: '', email: '', phone: '', category: 'unskilled', dailyWage: '600', designation: 'Helper' });
 
   useEffect(() => { loadWorkers(); }, []);
   useEffect(() => { const t = setTimeout(loadWorkers, 300); return () => clearTimeout(t); }, [search]);
@@ -21,14 +21,14 @@ export default function MyWorkers() {
     catch (err) { console.error(err); } finally { setLoading(false); }
   };
 
-  const openCreate = () => { setEditing(null); setForm({ name: '', email: '', phone: '', password: 'worker123', category: 'unskilled', dailyWage: '600', designation: 'Helper' }); setShowModal(true); };
-  const openEdit = (w) => { setEditing(w); setForm({ name: w.name, email: w.email, phone: w.phone, password: '', category: w.category, dailyWage: w.dailyWage || '', designation: w.designation || '' }); setShowModal(true); };
+  const openCreate = () => { setEditing(null); setForm({ name: '', email: '', phone: '', category: 'unskilled', dailyWage: '600', designation: 'Helper' }); setShowModal(true); };
+  const openEdit = (w) => { setEditing(w); setForm({ name: w.name, email: w.email, phone: w.phone, category: w.category, dailyWage: w.dailyWage || '', designation: w.designation || '' }); setShowModal(true); };
 
   const handleSave = async (e) => {
     e.preventDefault();
     try {
       const data = { ...form, role: 'worker', dailyWage: parseFloat(form.dailyWage) || 0 };
-      if (!data.password) delete data.password;
+
       if (editing) await userApi.update(editing._id, data); else await userApi.create(data);
       setShowModal(false); loadWorkers();
     } catch (err) { alert(err.message || 'Error'); }
@@ -71,10 +71,10 @@ export default function MyWorkers() {
                 <div className="modal-body">
                   <div className="form-group"><label className="form-label">Name *</label><input className="form-input" value={form.name} onChange={e => setForm({...form, name: e.target.value})} required /></div>
                   <div className="grid-2">
-                    <div className="form-group"><label className="form-label">Email *</label><input className="form-input" type="email" value={form.email} onChange={e => setForm({...form, email: e.target.value})} required /></div>
+                    <div className="form-group"><label className="form-label">Email</label><input className="form-input" type="email" value={form.email} onChange={e => setForm({...form, email: e.target.value})} /></div>
                     <div className="form-group"><label className="form-label">Phone *</label><input className="form-input" value={form.phone} onChange={e => setForm({...form, phone: e.target.value})} required /></div>
                   </div>
-                  {!editing && <div className="form-group"><label className="form-label">Password *</label><input className="form-input" type="password" value={form.password} onChange={e => setForm({...form, password: e.target.value})} required /></div>}
+
                   <div className="grid-2">
                     <div className="form-group"><label className="form-label">Category</label><select className="form-input form-select" value={form.category} onChange={e => setForm({...form, category: e.target.value})}><option value="skilled">Skilled</option><option value="unskilled">Unskilled</option><option value="contractor">Contractor</option><option value="engineer">Engineer</option></select></div>
                     <div className="form-group"><label className="form-label">Daily Wage</label><input className="form-input" type="number" value={form.dailyWage} onChange={e => setForm({...form, dailyWage: e.target.value})} /></div>

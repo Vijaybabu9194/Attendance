@@ -30,6 +30,8 @@ api.interceptors.response.use(
 export const authApi = {
   login: (data) => api.post('/auth/login', data),
   getMe: () => api.get('/auth/me'),
+  checkPhone: (data) => api.post('/auth/check-phone', data),
+  setupMpin: (data) => api.post('/auth/setup-mpin', data),
 };
 
 export const userApi = {

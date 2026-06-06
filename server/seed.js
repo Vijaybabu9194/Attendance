@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const User = require('./models/User');
-const Site = require('./models/Site');
+
 const Attendance = require('./models/Attendance');
 const LeaveRequest = require('./models/LeaveRequest');
 
@@ -95,10 +95,8 @@ async function seed() {
     await mongoose.connect(process.env.MONGODB_URI);
     console.log('Connected to MongoDB');
 
-    // Clear existing data
     await Promise.all([
       User.deleteMany({}),
-      Site.deleteMany({}),
       Attendance.deleteMany({}),
       LeaveRequest.deleteMany({})
     ]);
@@ -109,7 +107,7 @@ async function seed() {
       name: 'Admin User',
       email: 'vijaybabuarumilli99@gmail.com',
       password: 'vijay@123',
-      phone: '+91 9876543210',
+      phone: '9876543210',
       role: 'super_admin',
       category: 'supervisor',
       designation: 'System Administrator'

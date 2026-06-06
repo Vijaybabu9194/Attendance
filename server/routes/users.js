@@ -82,6 +82,9 @@ router.post('/', protect, authorize('super_admin', 'incharge'), async (req, res,
       req.body.supervisor = req.user._id;
     }
 
+    if (!req.body.email) delete req.body.email;
+    if (!req.body.password) delete req.body.password;
+
     const user = await User.create(req.body);
     res.status(201).json({ success: true, data: user });
   } catch (err) {
@@ -110,6 +113,7 @@ router.put('/:id', protect, authorize('super_admin', 'incharge'), async (req, re
   try {
     // Don't allow password updates through this route
     delete req.body.password;
+    if (!req.body.email) delete req.body.email;
 
     const user = await User.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
