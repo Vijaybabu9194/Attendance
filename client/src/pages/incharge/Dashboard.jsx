@@ -37,7 +37,7 @@ export default function InchargeDashboard() {
       <Topbar title="Incharge Dashboard" subtitle="Overview" />
       <div className="page-content">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-          <div className="stats-grid" style={{ gridTemplateColumns: 'repeat(4, 1fr)' }}>
+          <div className="stats-grid">
             {cards.map(c => (
               <div className="stat-card" key={c.label}>
                 <div className={`stat-icon ${c.color}`}><c.icon /></div>

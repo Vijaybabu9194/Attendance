@@ -70,7 +70,7 @@ export default function AttendanceReports() {
           </div>
 
           {/* Summary */}
-          <div className="stats-grid" style={{ gridTemplateColumns: 'repeat(4, 1fr)', marginBottom: 20 }}>
+          <div className="stats-grid" style={{ marginBottom: 20 }}>
             <div className="stat-card"><div className="stat-icon blue"><Calendar /></div><div className="stat-info"><h3>Total Records</h3><div className="stat-value">{total}</div></div></div>
             <div className="stat-card"><div className="stat-icon green"><Calendar /></div><div className="stat-info"><h3>Present</h3><div className="stat-value">{summary.present}</div></div></div>
             <div className="stat-card"><div className="stat-icon red"><Calendar /></div><div className="stat-info"><h3>Absent</h3><div className="stat-value">{summary.absent}</div></div></div>

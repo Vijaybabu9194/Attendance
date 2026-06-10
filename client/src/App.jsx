@@ -1,8 +1,6 @@
 import { BrowserRouter, Routes, Route, Navigate, Outlet } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext';
 
-// Layout
-import Sidebar from './components/layout/Sidebar';
 import MobileNav from './components/layout/MobileNav';
 
 // Pages
@@ -50,42 +48,32 @@ function ProtectedRoute({ roles, children }) {
   return children;
 }
 
-// Desktop Layout (Admin + Incharge)
-function DesktopLayout() {
-  return (
-    <div className="app-layout">
-      <Sidebar />
-      <div className="main-content">
-        <Outlet />
-      </div>
-    </div>
-  );
-}
-
-// Mobile Layout (Worker)
+// Mobile Layout (All Roles)
 function MobileLayout() {
   const { user } = useAuth();
   return (
     <div className="mobile-layout">
-      <div className="mobile-header">
-        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+      {user?.role === 'worker' && (
+        <div className="mobile-header">
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+            <div style={{
+              width: 32, height: 32, borderRadius: 8,
+              background: 'linear-gradient(135deg, #2563EB, #3B82F6)',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              color: 'white', fontWeight: 700, fontSize: 14
+            }}>A</div>
+            <h1>AttendEase</h1>
+          </div>
           <div style={{
-            width: 32, height: 32, borderRadius: 8,
-            background: 'linear-gradient(135deg, #2563EB, #3B82F6)',
+            width: 32, height: 32, borderRadius: '50%',
+            background: '#2563EB', color: 'white',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
-            color: 'white', fontWeight: 700, fontSize: 14
-          }}>A</div>
-          <h1>AttendEase</h1>
+            fontSize: 13, fontWeight: 600
+          }}>
+            {user?.name?.charAt(0)}
+          </div>
         </div>
-        <div style={{
-          width: 32, height: 32, borderRadius: '50%',
-          background: '#2563EB', color: 'white',
-          display: 'flex', alignItems: 'center', justifyContent: 'center',
-          fontSize: 13, fontWeight: 600
-        }}>
-          {user?.name?.charAt(0)}
-        </div>
-      </div>
+      )}
       <Outlet />
       <MobileNav />
     </div>
@@ -112,7 +100,7 @@ function App() {
           {/* Super Admin */}
           <Route path="/admin" element={
             <ProtectedRoute roles={['super_admin']}>
-              <DesktopLayout />
+              <MobileLayout />
             </ProtectedRoute>
           }>
             <Route index element={<AdminDashboard />} />
@@ -128,7 +116,7 @@ function App() {
           {/* Incharge */}
           <Route path="/incharge" element={
             <ProtectedRoute roles={['incharge']}>
-              <DesktopLayout />
+              <MobileLayout />
             </ProtectedRoute>
           }>
             <Route index element={<InchargeDashboard />} />
